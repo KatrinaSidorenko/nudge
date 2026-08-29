@@ -11,7 +11,6 @@
     <Folder Include="Learning\Decks\Exceptions\" />
     <Folder Include="Identity\Exceptions\" />
     <Folder Include="Identity\Extensions\" />
-    <Folder Include="Learning\Decks\Features\v1\" />
   </ItemGroup>
 
   <ItemGroup>

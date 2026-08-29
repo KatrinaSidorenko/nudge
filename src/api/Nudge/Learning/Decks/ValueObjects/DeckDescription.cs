@@ -9,5 +9,10 @@ public record DeckDescription
         Value = value;
     }
 
+    public static DeckDescription Of(string? description)
+    {
+        return new DeckDescription(description);
+    }
+
     public static implicit operator string?(DeckDescription description) => description.Value;
 }

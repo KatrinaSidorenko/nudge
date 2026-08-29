@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nudge.Learning.Cards.Models;
+using Nudge.Learning.Cards.ValueObjects;
 using Nudge.Learning.Decks.BussinessRules;
 using Nudge.Learning.Decks.Models;
 using Nudge.Learning.Decks.ValueObjects;
@@ -45,13 +46,12 @@ public class DeckConfiguration : IEntityTypeConfiguration<Deck>
 
         // another way is to make the seperate table with all info
         builder.HasMany(d => d.Cards)
-            .WithMany(c => c.Decks)
+            .WithMany()
             .UsingEntity(
                 joinEntityName: EFCoreExtensions.ToTableName<Deck, Card>(),
                 configureJoinEntityType: join =>
                 {
-                    // todo: think how to avoid magic
-                    join.HasIndex("DeckId", "CardId").IsUnique();
+                    join.HasIndex(nameof(DeckId), nameof(CardId)).IsUnique();
                 });
     }
 }
