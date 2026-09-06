@@ -2,8 +2,14 @@
 
 ## Local development
 
-Bring up the dev database with `cp .env.example .env && docker compose up -d` (see
-`docker-compose.yml`).
+Copy `.env.example` to `.env` and adjust values as needed, then bring up the dev database:
+
+```
+cp .env.example .env
+docker compose --env-file .env up -d
+```
+
+See `docker-compose.yml`.
 
 ## Credits:
     - https://github.com/meysamhadeli/booking-microservices
