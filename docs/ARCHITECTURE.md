@@ -34,7 +34,7 @@ and as the seam for a possible future web UI — both surfaces sit in front of t
 | Domain modeling | DDD tactical patterns: `Aggregate<TId>`, `Entity<TId>`, value objects | `Nudge.Shared.Core.Model` |
 | Auth (bot ↔ backend) | Backend verifies Telegram's signed auth payload on every gRPC call | No blind trust of the bot process |
 | Auth (REST/web) | Telegram Login Widget → backend verifies → self-issued JWT | Single identity source (Telegram) across bot and web |
-| Secrets | `dotnet user-secrets` (dev), env vars / Docker secrets (self-hosted prod) | Never committed; portable to a cloud secret store later |
+| Secrets | `dotnet user-secrets` (dev), env vars / Docker secrets (self-hosted prod) | Never committed; portable to a cloud secret store later — see [CONFIGURATION.md](CONFIGURATION.md) for the local dev env vars |
 | Logging | Serilog, structured | Console sink (dev/containers) + rolling file sink (self-hosted) |
 | Observability | OpenTelemetry (traces + infra metrics) | Console exporter now → self-hosted Grafana/Tempo/Loki/Prometheus later → cloud-native exporter on cloud migration |
 | Migrations | EF Core, **applied manually** (`dotnet ef database update`) | Not auto-applied on startup; revisit once Phase 5 defines a real deployment/migrator story |
