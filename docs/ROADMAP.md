@@ -13,7 +13,7 @@ Infra prerequisites with no product-facing behavior of their own.
 - [x] Add PostgreSQL to a local `docker-compose.yml` (dev database).
 - [ ] Add the first EF Core migrations for the `learning` schema, applied manually via
       `dotnet ef database update` (not auto-applied on startup — see architecture decision).
-- [ ] Configure `dotnet user-secrets` for local connection strings/secrets; document required env
+- [x] Configure `dotnet user-secrets` for local connection strings/secrets; document required env
       vars for containerized runs.
 - [ ] Add Serilog (console + rolling file sink), replacing default logging.
 - [ ] Add OpenTelemetry SDK with HTTP/gRPC/EF Core auto-instrumentation, console exporter.
