@@ -49,8 +49,9 @@ Features/
 - No repositories — handlers query the `DbContext` directly, scoped to their own module. Do not
   reach into another module's `DbContext` or table; cross-module data needs go through a foreign
   key (`UserId`, etc.), not a join.
-- Migrations are auto-applied on startup (see `docs/ROADMAP.md` Phase 0) — don't add a manual
-  `dotnet ef database update` step to the deploy flow.
+- Migrations are applied manually via `dotnet ef database update` (see `docs/ROADMAP.md` Phase 0
+  and `.claude/rules/architecture.md`) — not auto-applied on startup. Don't wire
+  `Database.Migrate()` into a host's startup path without revisiting this rule first.
 
 ## Domain invariants vs. request validation
 

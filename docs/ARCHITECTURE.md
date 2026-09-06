@@ -37,7 +37,7 @@ and as the seam for a possible future web UI — both surfaces sit in front of t
 | Secrets | `dotnet user-secrets` (dev), env vars / Docker secrets (self-hosted prod) | Never committed; portable to a cloud secret store later |
 | Logging | Serilog, structured | Console sink (dev/containers) + rolling file sink (self-hosted) |
 | Observability | OpenTelemetry (traces + infra metrics) | Console exporter now → self-hosted Grafana/Tempo/Loki/Prometheus later → cloud-native exporter on cloud migration |
-| Migrations | EF Core, **auto-applied on startup** | Same behavior in dev and prod (simplest for self-hosted) |
+| Migrations | EF Core, **applied manually** (`dotnet ef database update`) | Not auto-applied on startup; revisit once Phase 5 defines a real deployment/migrator story |
 | Testing | xUnit, unit tests only for now | Domain logic (aggregates, business rules, SM-2) — no integration tests yet |
 | Deployment | Self-hosted Docker Compose first | Postgres + `Nudge.Api` + `Nudge.Grpc` + bot behind a TLS-terminating reverse proxy (Caddy/Traefik); designed to migrate to managed cloud infra later |
 

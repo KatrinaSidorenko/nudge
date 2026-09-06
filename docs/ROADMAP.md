@@ -11,8 +11,8 @@ blocking — pull work forward if it unblocks something else.
 Infra prerequisites with no product-facing behavior of their own.
 
 - [ ] Add PostgreSQL to a local `docker-compose.yml` (dev database).
-- [ ] Add the first EF Core migrations for the `learning` schema; wire `Database.Migrate()` to run
-      on startup (both dev and prod, per architecture decision).
+- [ ] Add the first EF Core migrations for the `learning` schema, applied manually via
+      `dotnet ef database update` (not auto-applied on startup — see architecture decision).
 - [ ] Configure `dotnet user-secrets` for local connection strings/secrets; document required env
       vars for containerized runs.
 - [ ] Add Serilog (console + rolling file sink), replacing default logging.

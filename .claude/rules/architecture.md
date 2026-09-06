@@ -32,8 +32,10 @@ explicitly asking to revisit them. Full rationale in `docs/ARCHITECTURE.md`.
 - Domain modeling: DDD tactical patterns — `Aggregate<TId>`/`Entity<TId>` base classes, private
   setters, construction only via static factory methods (`Deck.Create(...)`-style).
 - Logging: **Serilog**, structured. Metrics/traces: **OpenTelemetry**.
-- Migrations: EF Core migrations, **auto-applied on startup** in every environment (not
-  design-time-only). Never hand-edit a generated migration.
+- Migrations: EF Core migrations, **applied manually** (`dotnet ef database update`) in every
+  environment for now — not auto-applied on startup, and not design-time-only either (a real
+  migration file must exist and be checked in). Never hand-edit a generated migration. Revisit
+  auto-apply-on-startup once Phase 5 defines a real deployment/migrator story.
 
 ## Identity & auth
 
