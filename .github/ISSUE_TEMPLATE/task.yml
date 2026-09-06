@@ -1,0 +1,14 @@
+name: Task / chore
+description: Infra, tooling, dependency, or documentation work with no direct user-facing behavior.
+title: "chore: "
+labels: ["type:chore"]
+body:
+  - type: markdown
+    attributes:
+      value: Remember to add exactly one `area:*` label after creating this issue.
+  - type: textarea
+    id: description
+    attributes:
+      label: What needs to be done, and why
+    validations:
+      required: true
