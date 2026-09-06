@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nudge.Learning.Cards.Models;
-using Nudge.Learning.Cards.ValueObjects;
 using Nudge.Learning.Decks.BussinessRules;
 using Nudge.Learning.Decks.Models;
 using Nudge.Learning.Decks.ValueObjects;
@@ -44,14 +42,9 @@ public class DeckConfiguration : IEntityTypeConfiguration<Deck>
                     .HasMaxLength(DeckDescriptionShouldBeLessThanNCharacters.Length);
             });
 
-        // another way is to make the seperate table with all info
-        builder.HasMany(d => d.Cards)
-            .WithMany()
-            .UsingEntity(
-                joinEntityName: EFCoreExtensions.ToTableName<Deck, Card>(),
-                configureJoinEntityType: join =>
-                {
-                    join.HasIndex(nameof(DeckId), nameof(CardId)).IsUnique();
-                });
+        // Deck.Cards is a list of CardId foreign keys, not a navigation to the Card entity, so it
+        // isn't an EF relationship to map yet. Card is still a stub (Roadmap Phase 2); revisit this
+        // mapping once Card is a real aggregate with its own table.
+        builder.Ignore(d => d.Cards);
     }
 }
