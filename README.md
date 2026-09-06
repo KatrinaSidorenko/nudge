@@ -11,6 +11,20 @@ docker compose --env-file .env up -d
 
 See `docker-compose.yml`.
 
+### Connection string (user-secrets)
+
+Both host projects (`Nudge.Api`, `Nudge.Grpc`) read the Postgres connection string from
+`dotnet user-secrets` rather than `appsettings.json`. Each already has its own `UserSecretsId`
+wired in its `.csproj`; you only need to set the value, matching whatever credentials you put in
+`.env` above (defaults shown):
+
+```
+dotnet user-secrets set "ConnectionStrings:LearningDb" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Api
+dotnet user-secrets set "ConnectionStrings:LearningDb" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Grpc
+```
+
+See `docs/CONFIGURATION.md` for the full list of local env vars this stack uses.
+
 ## Credits:
     - https://github.com/meysamhadeli/booking-microservices
     - https://github.com/evolutionary-architecture/evolutionary-architecture-by-example
