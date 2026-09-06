@@ -1,6 +1,9 @@
 # personal dev-notes
 log/*
 
+# Local environment/secrets
+.env
+
 # Allow Claude settings, skills, and rules
 !.claude/
 !.claude/rules/
