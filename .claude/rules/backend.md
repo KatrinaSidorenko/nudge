@@ -89,3 +89,9 @@ Features/
 - Follow `src/.editorconfig` as-is (StyleCop-backed rules, 4-space indent, `warning`-level
   accessibility modifier requirement, etc.) — don't override or suppress a rule without a specific
   reason called out in the change.
+- Comment sparingly: a comment is for a choice the code can't explain itself — a non-obvious
+  business rule, a workaround for a library/framework quirk, a deliberate deviation from the
+  obvious approach (see the `DbUpdateConcurrencyException` handling in `AppDbContextBase` for the
+  pattern). Don't narrate what a change does or add a comment restating what the next line already
+  says in code — if a reviewer would ask "why," write a comment; if they'd just read the code,
+  don't.
