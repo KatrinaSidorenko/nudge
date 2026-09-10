@@ -1,27 +1,26 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Nudge.Learning;
-using Nudge.Learning.Decks.Models;
+using Nudge.Identity;
+using Nudge.Identity.Users.Models;
 using Nudge.Shared.EFCore;
 
-namespace Nudge.Learning.Data;
+namespace Nudge.Identity.Data;
 
-public class LearningDbContext : AppDbContextBase
+public class IdentityDbContext : AppDbContextBase
 {
-    private const string _schema = "learning";
+    private const string _schema = "identity";
 
-    public LearningDbContext(DbContextOptions options, ILogger<LearningDbContext>? logger = null)
+    public IdentityDbContext(DbContextOptions options, ILogger<IdentityDbContext>? logger = null)
         : base(options, logger)
     {
     }
 
-    public DbSet<Deck> Decks => Set<Deck>();
+    public DbSet<User> Users => Set<User>();
 
-    // public DbSet<Card> Decks => Set<Deck>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.HasDefaultSchema(_schema);
-        builder.ApplyConfigurationsFromNamespaceOf<LearningRoot>();
+        builder.ApplyConfigurationsFromNamespaceOf<IdentityRoot>();
         base.OnModelCreating(builder);
         builder.FilterSoftDeletedProperties(); // can be ignored in query building by adding .IgnoreQueryFilters()
         builder.ToSnakeCaseTables();

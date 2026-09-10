@@ -10,4 +10,7 @@
   <Folder Name="/shared/">
     <Project Path="shared/Nudge.Shared/Nudge.Shared.csproj" Id="7dca95e8-dde2-4154-b52b-a76401b99192" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Nudge.Tests/Nudge.Tests.csproj" />
+  </Folder>
 </Solution>

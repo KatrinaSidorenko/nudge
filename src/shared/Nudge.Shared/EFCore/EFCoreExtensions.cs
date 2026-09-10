@@ -18,6 +18,25 @@ public static class EFCoreExtensions
     public static string ToColumnName(Func<string> getProp)
         => getProp() ?? throw new InvalidOperationException();
 
+    // Modules share one assembly (Nudge.csproj), so the plain ApplyConfigurationsFromAssembly
+    // overload would pull every module's IEntityTypeConfiguration<T> into each other's DbContext,
+    // breaking schema-per-module isolation. Scope discovery to TMarker's namespace instead — pass
+    // a module-root marker type (e.g. LearningRoot, IdentityRoot).
+    public static ModelBuilder ApplyConfigurationsFromNamespaceOf<TMarker>(this ModelBuilder builder)
+    {
+        var targetType = typeof(TMarker);
+        var targetNamespace = targetType.Namespace;
+
+        if (string.IsNullOrEmpty(targetNamespace))
+        {
+            throw new InvalidOperationException($"Type '{targetType.Name}' does not have a valid namespace.");
+        }
+
+        return builder.ApplyConfigurationsFromAssembly(
+            targetType.Assembly,
+            type => type.Namespace?.StartsWith(targetNamespace, StringComparison.Ordinal) == true);
+    }
+
     // ref: https://github.com/pdevito3/MessageBusTestingInMemHarness/blob/main/RecipeManagement/src/RecipeManagement/Databases/RecipesDbContext.cs
     public static void FilterSoftDeletedProperties(this ModelBuilder modelBuilder)
     {

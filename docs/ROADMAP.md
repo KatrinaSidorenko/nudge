@@ -39,10 +39,10 @@ re-proving it.
 
 Delivers SCOPE §1 (stories 1–2) and the create half of §2 (story 3).
 
-- [ ] New project `src/bot/Nudge.Bot` in the `/bot/` solution folder (not yet present in the
+- [x] New project `src/bot/Nudge.Bot` in the `/bot/` solution folder (not yet present in the
       repo), running against the real Telegram Bot API (long polling is fine for local dev).
 - [ ] gRPC client in the bot wired to `Nudge.Grpc`.
-- [ ] Create the `Identity` module (`identity` schema): `User` aggregate keyed by
+- [x] Create the `Identity` module (`identity` schema): `User` aggregate keyed by
       `TelegramUserId`.
 - [ ] Implement Telegram signed-auth verification once, shared by the `/start` handler now and
       the REST JWT login flow later (Phase 6+) — this is the one piece of auth logic every
