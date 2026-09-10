@@ -43,6 +43,12 @@ explicitly asking to revisit them. Full rationale in `docs/ARCHITECTURE.md`.
 - gRPC calls from the bot must be authenticated by **independently verifying Telegram's signed
   auth payload** server-side. Never trust a caller-supplied user ID without verifying the
   signature.
+  - **Interim exception (Phase 1 only, revisit before shipping further)**: only the `/start` call
+    performs this verification today, and it also creates-or-updates the `User` row from
+    Telegram's data on every call. Every other gRPC call currently trusts an unsigned
+    `TelegramUserId` supplied by the bot, unverified — a deliberate, temporary gap, not the
+    target state. Do not build new features on the assumption this is permanent; a real
+    per-call interceptor is still the end goal.
 - REST/web auth issues a backend-owned JWT after verifying a Telegram Login Widget payload. Do not
   add a separate credential system (OAuth provider, email/password) without explicit sign-off.
 - Nudge is **multi-user from the start** — every module owning user data must scope by `UserId`;

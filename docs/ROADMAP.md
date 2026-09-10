@@ -44,14 +44,16 @@ Delivers SCOPE §1 (stories 1–2) and the create half of §2 (story 3).
 - [ ] gRPC client in the bot wired to `Nudge.Grpc`.
 - [ ] Create the `Identity` module (`identity` schema): `User` aggregate keyed by
       `TelegramUserId`.
-- [ ] Implement Telegram signed-auth verification once, shared by the gRPC interceptor now and
+- [ ] Implement Telegram signed-auth verification once, shared by the `/start` handler now and
       the REST JWT login flow later (Phase 6+) — this is the one piece of auth logic every
       transport depends on.
-- [ ] gRPC interceptor that verifies Telegram's signed payload per call and resolves the caller's
-      `UserId` before any handler runs.
+- [ ] `/start` independently verifies Telegram's signed auth payload and creates-or-updates the
+      `User` (profile fields synced from Telegram on every `/start`) — no separate
+      registration/consent step (story 1). **Interim**: every other gRPC call trusts an unsigned
+      `TelegramUserId` from the bot without verifying it — see the "Identity & auth" interim
+      note in `.claude/rules/architecture.md`; a real per-call interceptor is deferred.
 - [ ] Wire a real current-user provider into `AppDbContextBase.OnBeforeSaving` (replaces the
-      hardcoded `userId = 0`).
-- [ ] `/start` implicitly creates the `User` — no separate registration/consent step (story 1).
+      hardcoded `userId = 0`), backed by the unverified `TelegramUserId` above for now.
 - [ ] Add `UserId` ownership to `Deck`; scope queries by the authenticated user (story 2) — decks
       are private, no exceptions in v1.
 - [ ] **End-to-end acceptance**: `/newdeck` in the bot creates a real `Deck` row, owned by the

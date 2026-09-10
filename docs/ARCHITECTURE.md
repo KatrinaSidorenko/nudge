@@ -166,7 +166,10 @@ touched, to avoid unrelated churn in an unrelated change.
 - **Bot → gRPC**: the bot calls the gRPC backend, passing Telegram's signed auth payload (the
   same HMAC-signed data Telegram issues for bot/WebApp auth) with each call. The backend
   **independently verifies the signature** rather than trusting the bot's claimed user ID —
-  defense in depth in case the bot process is ever compromised.
+  defense in depth in case the bot process is ever compromised. **Interim (Phase 1)**: only the
+  `/start` call is actually verified this way today, and it also creates-or-updates the `User`
+  row from Telegram's data each time; every other call trusts an unsigned `TelegramUserId` from
+  the bot without verification — a known, temporary gap, see `.claude/rules/architecture.md`.
 - **Web → REST**: user authenticates via the **Telegram Login Widget**; the backend verifies
   Telegram's signed payload once and issues its **own JWT** for subsequent REST calls. One
   identity source (Telegram) across both clients — no separate password store anywhere in the
