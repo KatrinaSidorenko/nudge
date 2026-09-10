@@ -19,8 +19,8 @@ wired in its `.csproj`; you only need to set the value, matching whatever creden
 `.env` above (defaults shown):
 
 ```
-dotnet user-secrets set "ConnectionStrings:LearningDb" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Api
-dotnet user-secrets set "ConnectionStrings:LearningDb" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Grpc
+dotnet user-secrets set "LearningDb:ConnectionString" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Api
+dotnet user-secrets set "LearningDb:ConnectionString" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Grpc
 ```
 
 See `docs/CONFIGURATION.md` for the full list of local env vars this stack uses.
@@ -28,7 +28,7 @@ See `docs/CONFIGURATION.md` for the full list of local env vars this stack uses.
 ### Database migrations
 
 Migrations are applied manually — never auto-applied on startup. With the dev database up and
-`ConnectionStrings:LearningDb` set (above), apply the `learning` schema's migrations:
+`LearningDb:ConnectionString` set (above), apply the `learning` schema's migrations:
 
 ```
 dotnet ef database update --project src/api/Nudge --startup-project src/api/Nudge.Api

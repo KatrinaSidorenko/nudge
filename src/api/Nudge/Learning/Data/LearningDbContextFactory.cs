@@ -23,11 +23,15 @@ public class LearningDbContextFactory : IDesignTimeDbContextFactory<LearningDbCo
             .AddEnvironmentVariables()
             .Build();
 
-        var connectionString = configuration.GetConnectionString("LearningDb")
-            ?? throw new InvalidOperationException(
-                "Connection string 'ConnectionStrings:LearningDb' not found. Set it via " +
-                "`dotnet user-secrets set \"ConnectionStrings:LearningDb\" \"...\" --project src/api/Nudge.Api` " +
-                "(see README.md).");
+        var options = configuration.GetSection(LearningDbOptions.SectionName).Get<LearningDbOptions>();
+        var connectionString = options?.ConnectionString;
+
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException(
+                $"Connection string '{LearningDbOptions.SectionName}:{nameof(LearningDbOptions.ConnectionString)}' " +
+                "not found. Set it via `dotnet user-secrets set` (see README.md).");
+        }
 
         var optionsBuilder = new DbContextOptionsBuilder<LearningDbContext>();
         optionsBuilder.UseNpgsql(connectionString);

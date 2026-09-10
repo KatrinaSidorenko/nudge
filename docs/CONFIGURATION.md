@@ -19,17 +19,18 @@ Copy `.env.example` to `.env` at the repo root and adjust as needed; `.env` is g
 ## `dotnet user-secrets` (host projects)
 
 `Nudge.Api` and `Nudge.Grpc` each read the Postgres connection string from their own
-`dotnet user-secrets` store (see README "Local development") rather than `appsettings.json`. The
-value must match whatever you put in `.env` above:
+`dotnet user-secrets` store (see README "Local development"), overriding the placeholder value
+committed in `appsettings.json` under the `LearningDb` section (`LearningDbOptions.SectionName`).
+The value must match whatever you put in `.env` above:
 
-| Key                              | Purpose                                | Example value                                                            | Consumed by                          |
-|----------------------------------|-----------------------------------------|---------------------------------------------------------------------------|----------------------------------------|
-| `ConnectionStrings:LearningDb`   | Npgsql connection string, `learning` schema | `Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme` | `dotnet user-secrets` (`Nudge.Api`, `Nudge.Grpc`) |
+| Key                            | Purpose                                | Example value                                                            | Consumed by                          |
+|---------------------------------|-----------------------------------------|---------------------------------------------------------------------------|----------------------------------------|
+| `LearningDb:ConnectionString`   | Npgsql connection string, `learning` schema | `Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme` | `dotnet user-secrets` (`Nudge.Api`, `Nudge.Grpc`) |
 
 ## From a fresh clone
 
 1. `cp .env.example .env` (adjust values if you like) and `docker compose --env-file .env up -d`.
-2. Set `ConnectionStrings:LearningDb` via `dotnet user-secrets set` for both `Nudge.Api` and
+2. Set `LearningDb:ConnectionString` via `dotnet user-secrets set` for both `Nudge.Api` and
    `Nudge.Grpc`, using the same host/port/db/user/password as your `.env`.
 
 No `appsettings.json` edits and no committed secrets required.
