@@ -1,6 +1,8 @@
+using Nudge.Shared.EFCore;
+
 namespace Nudge.Learning.Data;
 
-public class LearningDbOptions
+public class LearningDbOptions : IConnectionStringOptions
 {
     public const string SectionName = "LearningDb";
 

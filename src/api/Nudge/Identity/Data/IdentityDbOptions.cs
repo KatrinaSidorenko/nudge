@@ -1,6 +1,8 @@
+using Nudge.Shared.EFCore;
+
 namespace Nudge.Identity.Data;
 
-public class IdentityDbOptions
+public class IdentityDbOptions : IConnectionStringOptions
 {
     public const string SectionName = "IdentityDb";
 

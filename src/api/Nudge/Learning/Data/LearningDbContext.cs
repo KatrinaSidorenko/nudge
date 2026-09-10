@@ -1,6 +1,6 @@
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Nudge.Learning;
 using Nudge.Learning.Decks.Models;
 using Nudge.Shared.EFCore;
 
@@ -21,13 +21,7 @@ public class LearningDbContext : AppDbContextBase
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.HasDefaultSchema(_schema);
-
-        // Nudge/Learning and Nudge/Identity share one assembly — scope by namespace so this
-        // context doesn't pick up the other module's IEntityTypeConfiguration<T> and pull its
-        // tables into the learning schema (breaks schema-per-module isolation otherwise).
-        builder.ApplyConfigurationsFromAssembly(
-            Assembly.GetExecutingAssembly(),
-            t => t.Namespace?.StartsWith("Nudge.Learning.", StringComparison.Ordinal) == true);
+        builder.ApplyConfigurationsFromNamespaceOf<LearningRoot>();
         base.OnModelCreating(builder);
         builder.FilterSoftDeletedProperties(); // can be ignored in query building by adding .IgnoreQueryFilters()
         builder.ToSnakeCaseTables();

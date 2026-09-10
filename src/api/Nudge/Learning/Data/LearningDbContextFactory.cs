@@ -1,41 +1,11 @@
-using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
+using Nudge.Shared.EFCore;
 
 namespace Nudge.Learning.Data;
 
-public class LearningDbContextFactory : IDesignTimeDbContextFactory<LearningDbContext>
+public class LearningDbContextFactory : DesignTimeDbContextFactoryBase<LearningDbContext, LearningDbOptions>
 {
-    // Can't use AddUserSecrets<T> here since this project doesn't reference a type from
-    // Nudge.Api's assembly — matches Nudge.Api's <UserSecretsId> instead.
-    private const string NudgeApiUserSecretsId = "eb9747a0-ee3c-4160-ace1-1fd1ab80fda4";
+    protected override string SectionName => LearningDbOptions.SectionName;
 
-    public LearningDbContext CreateDbContext(string[] args)
-    {
-        var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
-
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
-            .AddUserSecrets(NudgeApiUserSecretsId)
-            .AddEnvironmentVariables()
-            .Build();
-
-        var options = configuration.GetSection(LearningDbOptions.SectionName).Get<LearningDbOptions>();
-        var connectionString = options?.ConnectionString;
-
-        if (string.IsNullOrWhiteSpace(connectionString))
-        {
-            throw new InvalidOperationException(
-                $"Connection string '{LearningDbOptions.SectionName}:{nameof(LearningDbOptions.ConnectionString)}' " +
-                "not found. Set it via `dotnet user-secrets set` (see README.md).");
-        }
-
-        var optionsBuilder = new DbContextOptionsBuilder<LearningDbContext>();
-        optionsBuilder.UseNpgsql(connectionString);
-
-        return new LearningDbContext(optionsBuilder.Options);
-    }
+    protected override LearningDbContext CreateDbContext(DbContextOptions<LearningDbContext> options) => new(options);
 }
