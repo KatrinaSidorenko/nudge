@@ -1,4 +1,4 @@
-namespace Nudge.Shared.Core.Model;
+namespace Nudge.Shared.Core.Utils;
 
 public interface IIdGenerator<T>
 {

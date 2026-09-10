@@ -1,0 +1,23 @@
+name: Feature request
+description: A new capability or enhancement.
+title: "feat: "
+labels: ["type:feat"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Remember to add exactly one `area:*` label after creating this issue.
+        If this maps to a user story in `docs/SCOPE.md`, reference its number below.
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      description: "As a <actor>, I want <feature>, so that <benefit>. Link the SCOPE.md story number if one exists."
+    validations:
+      required: true
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Implementation decisions / acceptance criteria
+    validations:
+      required: false

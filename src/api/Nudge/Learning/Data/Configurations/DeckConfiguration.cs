@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nudge.Learning.Cards.Models;
 using Nudge.Learning.Decks.BussinessRules;
 using Nudge.Learning.Decks.Models;
 using Nudge.Learning.Decks.ValueObjects;
@@ -43,15 +42,7 @@ public class DeckConfiguration : IEntityTypeConfiguration<Deck>
                     .HasMaxLength(DeckDescriptionShouldBeLessThanNCharacters.Length);
             });
 
-        // another way is to make the seperate table with all info
-        builder.HasMany(d => d.Cards)
-            .WithMany(c => c.Decks)
-            .UsingEntity(
-                joinEntityName: EFCoreExtensions.ToTableName<Deck, Card>(),
-                configureJoinEntityType: join =>
-                {
-                    // todo: think how to avoid magic
-                    join.HasIndex("DeckId", "CardId").IsUnique();
-                });
+        // Card is still a stub with no table (Roadmap Phase 2); revisit once it's a real aggregate.
+        builder.Ignore(d => d.Cards);
     }
 }

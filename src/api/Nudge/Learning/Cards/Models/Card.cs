@@ -6,11 +6,4 @@ namespace Nudge.Learning.Cards.Models;
 
 public record Card : Aggregate<CardId>
 {
-    private readonly List<Deck> _decks =[];
-    public IReadOnlyList<Deck> Decks => _decks.AsReadOnly();
-
-    public void AddToDeck(Deck deck)
-    {
-        _decks.Add(deck);
-    }
 }

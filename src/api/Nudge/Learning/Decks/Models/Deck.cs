@@ -1,4 +1,5 @@
 using Nudge.Learning.Cards.Models;
+using Nudge.Learning.Cards.ValueObjects;
 using Nudge.Learning.Decks.BussinessRules;
 using Nudge.Learning.Decks.ValueObjects;
 using Nudge.Shared.Core.BusinessRulesEngine;
@@ -12,19 +13,24 @@ public record Deck : Aggregate<DeckId>
     public DeckDescription? Description { get; private set; }
     public bool IsArchived { get; private set; }
 
-    private readonly List<Card> _cards =[];
-    public IReadOnlyList<Card> Cards => _cards.AsReadOnly();
+    private readonly List<CardId> _cards =[];
+    public IReadOnlyList<CardId> Cards => _cards.AsReadOnly();
 
-    public void Create(DeckId id, DeckTitle title, DeckDescription? description, bool isArchived = false)
+    public static Deck Create(DeckId id, DeckTitle title, DeckDescription? description, bool isArchived = false)
     {
         BusinessRuleValidator.Validate(new DeckTitleShouldBeLessThanNCharacters(title));
         BusinessRuleValidator.Validate(new DeckDescriptionShouldBeLessThanNCharacters(description));
 
-        Id = id;
-        Title = title;
-        Description = description;
-        IsArchived = isArchived;
+        var deck = new Deck
+        {
+            Id = id,
+            Title = title,
+            Description = description,
+            IsArchived = isArchived,
+        };
 
         // domain event?
+
+        return deck;
     }
 }

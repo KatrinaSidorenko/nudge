@@ -1,8 +1,8 @@
 using IdGen;
 
-namespace Nudge.Shared.Core.Model;
+namespace Nudge.Shared.Core.Utils;
 
-public class SnowflakeIdGeneratorAdapter : Shared.Core.Model.IIdGenerator<long>
+public class SnowflakeIdGeneratorAdapter : IIdGenerator<long>
 {
     private readonly IdGenerator _idGenerator;
 

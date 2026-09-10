@@ -1,5 +1,8 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Nudge.Shared.Mapster;
 using Nudge.Shared.OpenApi;
 
 namespace Nudge.Learning.Extensions;
@@ -11,6 +14,13 @@ public static class InfrastructureExtensions
     public static WebApplicationBuilder AddInfrastructure(this WebApplicationBuilder builder)
     {
         builder.Services.AddOpenApi(_apiVersions);
+        builder.Services.AddProblemDetails();
+
+        builder.Services.AddValidatorsFromAssemblyContaining<LearningRoot>();
+
+        builder.Services.AddCustomMapster(typeof(LearningRoot).Assembly);
+        builder.Services.AddCustomMediatR();
+
         return builder;
     }
 

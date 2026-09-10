@@ -1,3 +1,14 @@
 # personal dev-notes
 log/*
 
+# Local environment/secrets
+.env
+
+# Allow Claude settings, skills, and rules
+!.claude/
+!.claude/rules/
+!.claude/skills/
+
+# Ignore local runtime/session data
+.claude/memory/
+.claude/history/

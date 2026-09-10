@@ -6,7 +6,7 @@ using Nudge.Shared.EFCore;
 
 namespace Nudge.Learning.Data;
 
-internal class LearningDbContext : AppDbContextBase
+public class LearningDbContext : AppDbContextBase
 {
     private const string _schema = "learning";
 
