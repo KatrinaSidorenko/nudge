@@ -1,33 +1,32 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Nudge.Learning.Decks.Models;
+using Nudge.Identity.Users.Models;
 using Nudge.Shared.EFCore;
 
-namespace Nudge.Learning.Data;
+namespace Nudge.Identity.Data;
 
-public class LearningDbContext : AppDbContextBase
+public class IdentityDbContext : AppDbContextBase
 {
-    private const string _schema = "learning";
+    private const string _schema = "identity";
 
-    public LearningDbContext(DbContextOptions options, ILogger<LearningDbContext>? logger = null)
+    public IdentityDbContext(DbContextOptions options, ILogger<IdentityDbContext>? logger = null)
         : base(options, logger)
     {
     }
 
-    public DbSet<Deck> Decks => Set<Deck>();
+    public DbSet<User> Users => Set<User>();
 
-    // public DbSet<Card> Decks => Set<Deck>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.HasDefaultSchema(_schema);
 
         // Nudge/Learning and Nudge/Identity share one assembly — scope by namespace so this
         // context doesn't pick up the other module's IEntityTypeConfiguration<T> and pull its
-        // tables into the learning schema (breaks schema-per-module isolation otherwise).
+        // tables into the identity schema (breaks schema-per-module isolation otherwise).
         builder.ApplyConfigurationsFromAssembly(
             Assembly.GetExecutingAssembly(),
-            t => t.Namespace?.StartsWith("Nudge.Learning.", StringComparison.Ordinal) == true);
+            t => t.Namespace?.StartsWith("Nudge.Identity.", StringComparison.Ordinal) == true);
         base.OnModelCreating(builder);
         builder.FilterSoftDeletedProperties(); // can be ignored in query building by adding .IgnoreQueryFilters()
         builder.ToSnakeCaseTables();
