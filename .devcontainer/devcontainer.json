@@ -1,0 +1,25 @@
+{
+  "name": ".NET DevContainer with Claude Code & GitHub MCP",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "runArgs": [
+    "--env-file", "${localWorkspaceFolder}/.devcontainer/.env"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "remoteEnv": {
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}",
+    "GITHUB_PERSONAL_ACCESS_TOKEN": "${localEnv:GITHUB_PERSONAL_ACCESS_TOKEN}"
+  },
+  "mounts": [
+    //"source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,readonly"
+  ],
+  "remoteUser": "vscode"
+}
