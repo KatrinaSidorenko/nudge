@@ -42,9 +42,7 @@ public class DeckConfiguration : IEntityTypeConfiguration<Deck>
                     .HasMaxLength(DeckDescriptionShouldBeLessThanNCharacters.Length);
             });
 
-        // Deck.Cards is a list of CardId foreign keys, not a navigation to the Card entity, so it
-        // isn't an EF relationship to map yet. Card is still a stub (Roadmap Phase 2); revisit this
-        // mapping once Card is a real aggregate with its own table.
+        // Card is still a stub with no table (Roadmap Phase 2); revisit once it's a real aggregate.
         builder.Ignore(d => d.Cards);
     }
 }

@@ -25,9 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Sdk.Web pulls these in automatically for the host projects; this is a plain class library, so
-         the design-time factory (Learning/Data/LearningDbContextFactory.cs) needs them explicitly to
-         read appsettings.{Environment}.json + user-secrets the same way the hosts do at runtime. -->
+    <!-- Sdk.Web pulls these in for the host projects; this is a plain class library, needed by
+         LearningDbContextFactory. -->
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.11" />

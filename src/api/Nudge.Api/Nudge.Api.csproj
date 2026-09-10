@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Required by the EF Core tools when this project is used as the startup project (see
-         Nudge/Learning/Data/LearningDbContextFactory.cs and README.md). -->
+    <!-- Required by the EF Core tools when this project is used as the startup project. -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
