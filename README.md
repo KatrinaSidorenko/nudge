@@ -51,6 +51,18 @@ Both commands work without a running host — `LearningDbContextFactory` (a desi
 `appsettings.json` + `appsettings.{ASPNETCORE_ENVIRONMENT}.json` (defaults to `Development`) +
 user-secrets, same as the hosts do at runtime. Never hand-edit a generated migration file.
 
+### Telegram bot token (user-secrets)
+
+`Nudge.Bot` connects to the real Telegram Bot API, so it needs a real bot token from
+[@BotFather](https://t.me/BotFather):
+
+```
+dotnet user-secrets set "Telegram:BotToken" "<token from BotFather>" --project src/bot/Nudge.Bot
+```
+
+Then run it with `dotnet run --project src/bot/Nudge.Bot`. It long-polls Telegram and logs
+incoming updates; it doesn't respond to any commands yet.
+
 ## Credits:
     - https://github.com/meysamhadeli/booking-microservices
     - https://github.com/evolutionary-architecture/evolutionary-architecture-by-example
