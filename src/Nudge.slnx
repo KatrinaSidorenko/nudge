@@ -4,7 +4,9 @@
     <Project Path="api/Nudge.Grpc/Nudge.Grpc.csproj" Id="55d28aa6-0588-4c21-85f8-46c089d4464d" />
     <Project Path="api/Nudge/Nudge.csproj" Id="5bd06aac-9c8d-4690-a1e2-27b1d2f8e9e8" />
   </Folder>
-  <Folder Name="/bot/" />
+  <Folder Name="/bot/">
+    <Project Path="bot/Nudge.Bot/Nudge.Bot.csproj" />
+  </Folder>
   <Folder Name="/shared/">
     <Project Path="shared/Nudge.Shared/Nudge.Shared.csproj" Id="7dca95e8-dde2-4154-b52b-a76401b99192" />
   </Folder>
