@@ -8,7 +8,6 @@ log/*
 !.claude/
 !.claude/rules/
 !.claude/skills/
-.claude/settings.json
 
 # Ignore local runtime/session data
 .claude/memory/

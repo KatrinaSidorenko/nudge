@@ -25,6 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Sdk.Web pulls these in for the host projects; this is a plain class library, needed by
+         LearningDbContextFactory. -->
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\shared\Nudge.Shared\Nudge.Shared.csproj" />
   </ItemGroup>
 
