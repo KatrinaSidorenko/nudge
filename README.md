@@ -34,6 +34,12 @@ Migrations are applied manually — never auto-applied on startup. With the dev 
 dotnet ef database update --project src/api/Nudge --startup-project src/api/Nudge.Api
 ```
 
+Or, from `src/api/Nudge`:
+
+```
+dotnet ef database update --project Nudge.csproj --startup-project ../Nudge.Api/Nudge.Api.csproj
+```
+
 To add a new migration after changing `LearningDbContext`'s model:
 
 ```
