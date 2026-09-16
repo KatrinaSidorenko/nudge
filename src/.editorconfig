@@ -1,0 +1,95 @@
+# Top-most EditorConfig file
+root = true
+
+# ============================================================================
+# GLOBAL DEFAULTS
+# ============================================================================
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = true
+max_line_length = 120
+trim_trailing_whitespace = true
+
+# ============================================================================
+# C# CORE FORMATTING & STYLE RULES
+# ============================================================================
+[*.cs]
+# New line preferences
+csharp_new_line_before_catch = true
+csharp_new_line_before_else = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+
+# Indentation preferences
+csharp_indent_block_contents = true
+csharp_indent_braces = false
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+
+# Spacing preferences
+csharp_space_after_cast = false
+csharp_space_after_colon_in_base_type_declaration = true
+csharp_space_after_comma = true
+csharp_space_after_dot = false
+csharp_space_after_semicolon_in_for_statement = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_ignore_formatting_in_color_linear_arrays = false
+
+# 'var' preferences
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_property = false:silent
+dotnet_style_qualification_for_method = false:silent
+dotnet_style_qualification_for_event = false:silent
+
+# Modifier preferences
+dotnet_style_require_accessibility_modifiers = for_all_members:warning
+
+# ============================================================================
+# STYLECOP ANALYZER SEVERITY CONFIGURATIONS
+# ============================================================================
+[*.cs]
+# SA1000: The keyword 'new' should be followed by a space
+dotnet_diagnostic.SA1000.severity = warning
+
+# SA1101: Prefix local calls with this (Disabled for modern clean code)
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1116: Split parameters should start on line after declaration
+dotnet_diagnostic.SA1116.severity = warning
+
+# SA1122: Use string.Empty instead of "" (Often noisy, set to none or warning)
+dotnet_diagnostic.SA1122.severity = none
+
+# SA1200: Using directives must be placed correctly (Inside namespace = warning)
+dotnet_diagnostic.SA1200.severity = warning
+
+# SA1201: Elements must appear in the correct order
+dotnet_diagnostic.SA1201.severity = warning
+
+# SA1309: Field names must not begin with underscore (Disabled to allow _fieldName)
+dotnet_diagnostic.SA1309.severity = none
+
+# SA1400: Access modifier must be declared
+dotnet_diagnostic.SA1400.severity = warning
+
+# SA1512: Single-line comments must not be followed by blank line
+dotnet_diagnostic.SA1512.severity = warning
+
+# SA1633: File should have header (Disabled to prevent forced copyright blocks)
+dotnet_diagnostic.SA1633.severity = none
+
+# Disable "Elements should be documented" (SA1600)
+dotnet_diagnostic.SA1600.severity = none
+
+# Disable "Enumeration items should be documented" (SA1602)
+dotnet_diagnostic.SA1602.severity = none
+
+# Disable "File should have header" (SA1633)
+dotnet_diagnostic.SA1633.severity = none
+
+dotnet_diagnostic.SA1200.severity = none
