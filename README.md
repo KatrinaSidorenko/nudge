@@ -19,6 +19,7 @@ set the value, matching whatever credentials you put in `.env` above (defaults s
 
 ```
 dotnet user-secrets set "LearningDb:ConnectionString" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Api
+dotnet user-secrets set "IdentityDb:ConnectionString" "Host=localhost;Port=5432;Database=nudge;Username=nudge;Password=changeme" --project src/api/Nudge.Api
 ```
 
 ### Database migrations
@@ -27,6 +28,8 @@ Migrations are applied manually — never auto-applied on startup. With the dev 
 `LearningDb:ConnectionString` set (above), apply the `learning` schema's migrations:
 
 ```
+dotnet ef database update -p src/api/Nudge -s src/api/Nudge.Api -c IdentityDbContext
+
 dotnet ef database update --project src/api/Nudge --startup-project src/api/Nudge.Api
 ```
 

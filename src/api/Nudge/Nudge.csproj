@@ -10,7 +10,6 @@
     <Folder Include="Learning\Cards\BussinessRules\" />
     <Folder Include="Learning\Decks\Exceptions\" />
     <Folder Include="Identity\Exceptions\" />
-    <Folder Include="Identity\Extensions\" />
   </ItemGroup>
 
   <ItemGroup>
