@@ -17,8 +17,9 @@ public static class InfrastructureExtensions
         builder.Services.AddOpenApi(_apiVersions);
         builder.Services.AddProblemDetails();
 
-        // Endpoints, DTOs and validators live in this assembly (Nudge.Api); LearningRoot's
-        // assembly (Nudge) holds only domain/command types now, so both are scanned.
+        // Endpoints, DTOs and validators live in Nudge (LearningRoot's assembly) now; this
+        // assembly (Nudge.Api) is scanned too in case a host-side validator is added later.
+        builder.Services.AddValidatorsFromAssembly(typeof(LearningRoot).Assembly);
         builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         builder.Services.AddCustomMapster(typeof(LearningRoot).Assembly, Assembly.GetExecutingAssembly());
