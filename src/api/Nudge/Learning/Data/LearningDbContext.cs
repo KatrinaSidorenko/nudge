@@ -10,7 +10,7 @@ public class LearningDbContext : AppDbContextBase
 {
     private const string _schema = "learning";
 
-    public LearningDbContext(DbContextOptions options, ILogger<LearningDbContext>? logger = null)
+    public LearningDbContext(DbContextOptions<LearningDbContext> options, ILogger<LearningDbContext>? logger = null)
         : base(options, logger)
     {
     }
