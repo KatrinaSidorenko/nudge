@@ -1,12 +1,15 @@
 using System.Net.Http.Json;
+using Microsoft.Extensions.Options;
 
 namespace Nudge.Bot.NudgeApi;
 
-public class UserApiClient(HttpClient httpClient) : IUserApiClient
+public class UserApiClient(HttpClient httpClient, IOptions<UsersApiOptions> usersApiOptions) : IUserApiClient
 {
     public async Task<UpsertUserResponse> UpsertUserAsync(UpsertUserRequest request, CancellationToken cancellationToken)
     {
-        var response = await httpClient.PostAsJsonAsync("api/v1/users", request, cancellationToken);
+        var route = $"api/v{usersApiOptions.Value.Version}/{UsersApiRoutes.Users}";
+
+        var response = await httpClient.PostAsJsonAsync(route, request, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         var result = await response.Content.ReadFromJsonAsync<UpsertUserResponse>(cancellationToken);

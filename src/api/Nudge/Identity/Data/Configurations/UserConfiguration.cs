@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nudge.Identity.Users.Models;
 using Nudge.Identity.Users.ValueObjects;
+using Nudge.Shared.Core.Localization;
 using Nudge.Shared.EFCore;
 
 namespace Nudge.Identity.Data.Configurations;
@@ -23,7 +24,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.FirstName).IsRequired();
         builder.Property(u => u.LastName);
         builder.Property(u => u.Username);
-        builder.Property(u => u.LanguageCode);
+        builder.Property(u => u.LanguageCode).HasConversion<int>(lc => (int)lc.Value, value => LanguageCode.Of((Language)value));
 
         // It embeds TelegramUserId's properties as columns inside the parent entity's database
         // table instead of creating a second relational table with a Foreign Key

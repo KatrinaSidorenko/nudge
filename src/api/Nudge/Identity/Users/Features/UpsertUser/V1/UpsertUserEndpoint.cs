@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 using Nudge.Shared.Core.Api;
+using Nudge.Shared.Core.Localization;
 
 namespace Nudge.Identity.Users.Features.UpsertUser.V1;
 
@@ -25,7 +26,7 @@ public class UpsertUserRequestDto
     public string? Username { get; set; }
 
     [JsonProperty("languageCode")]
-    public string? LanguageCode { get; set; }
+    public Language LanguageCode { get; set; }
 }
 
 public class UpsertUserResponseDto

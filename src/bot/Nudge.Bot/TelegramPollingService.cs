@@ -1,5 +1,6 @@
 using Nudge.Bot.Commands;
 using Nudge.Bot.Localization;
+using Nudge.Shared.Core.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
@@ -18,6 +19,11 @@ public class TelegramPollingService(
     IBotMessageResolver messageResolver,
     ILogger<TelegramPollingService> logger) : BackgroundService, IUpdateHandler
 {
+    // Built once from DI; O(1) lookup per update instead of scanning the handler list. Unknown
+    // is always present (UnknownCommandHandler is registered like any other handler), so it also
+    // serves as the fallback for command types nothing is registered for yet.
+    private readonly Dictionary<BotCommandType, IBotCommandHandler> _commandHandlers = commandHandlers.ToDictionary(h => h.CommandType);
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var me = await botClient.GetMe(stoppingToken);
@@ -41,17 +47,9 @@ public class TelegramPollingService(
         }
 
         var commandType = BotCommandParser.Parse(message.Text);
-        if (commandType == BotCommandType.Unknown)
+        if (!_commandHandlers.TryGetValue(commandType, out var handler))
         {
-            await SendLocalizedMessageAsync(message, messageResolver.GetUnknownCommandMessageAsync, cancellationToken);
-            return;
-        }
-
-        var handler = commandHandlers.FirstOrDefault(h => h.CommandType == commandType);
-        if (handler is null)
-        {
-            await SendLocalizedMessageAsync(message, messageResolver.GetUnknownCommandMessageAsync, cancellationToken);
-            return;
+            handler = _commandHandlers[BotCommandType.Unknown];
         }
 
         try
@@ -61,14 +59,11 @@ public class TelegramPollingService(
         catch (Exception ex)
         {
             logger.LogError(ex, "Error handling {CommandType} for chat {ChatId}", commandType, message.Chat.Id);
-            await SendLocalizedMessageAsync(message, messageResolver.GetInternalErrorMessageAsync, cancellationToken);
-        }
-    }
 
-    private async Task SendLocalizedMessageAsync(Message message, Func<string?, CancellationToken, Task<string>> resolveMessage, CancellationToken cancellationToken)
-    {
-        var text = await resolveMessage(message.From?.LanguageCode, cancellationToken);
-        await botClient.SendMessage(message.Chat.Id, text, cancellationToken: cancellationToken);
+            var language = LanguageParser.Parse(message.From?.LanguageCode);
+            var errorMessage = await messageResolver.GetInternalErrorMessageAsync(language, cancellationToken);
+            await botClient.SendMessage(message.Chat.Id, errorMessage, cancellationToken: cancellationToken);
+        }
     }
 
     public Task HandleErrorAsync(ITelegramBotClient client, Exception exception, HandleErrorSource source, CancellationToken cancellationToken)

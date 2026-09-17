@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Nudge.Shared.Core.Localization;
 
 namespace Nudge.Bot.NudgeApi;
 
@@ -10,7 +11,7 @@ public record UpsertUserRequest(
     [property: JsonPropertyName("firstName")] string FirstName,
     [property: JsonPropertyName("lastName")] string? LastName,
     [property: JsonPropertyName("username")] string? Username,
-    [property: JsonPropertyName("languageCode")] string? LanguageCode);
+    [property: JsonPropertyName("languageCode")] Language LanguageCode);
 
 public record UpsertUserResponse(
     [property: JsonPropertyName("id")] long Id,

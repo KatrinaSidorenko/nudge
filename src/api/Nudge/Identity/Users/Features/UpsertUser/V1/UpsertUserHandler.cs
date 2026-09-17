@@ -5,11 +5,12 @@ using Nudge.Identity.Users.Models;
 using Nudge.Identity.Users.ValueObjects;
 using Nudge.Shared.Core.BusinessRulesEngine;
 using Nudge.Shared.Core.CQRS;
+using Nudge.Shared.Core.Localization;
 using Nudge.Shared.Core.Utils;
 
 namespace Nudge.Identity.Users.Features.UpsertUser.V1;
 
-public record UpsertUserCommand(long? TelegramId, string FirstName, string? LastName, string? Username, string? LanguageCode) : ICommand<UpsertUserResult>;
+public record UpsertUserCommand(long? TelegramId, string FirstName, string? LastName, string? Username, Language LanguageCode) : ICommand<UpsertUserResult>;
 public record UpsertUserResult(long Id, bool IsNewUser);
 
 public class UpsertUserHandler(ILogger logger, IdentityDbContext dbContext, IIdGenerator<long> idGenerator) : ICommandHandler<UpsertUserCommand, UpsertUserResult>
@@ -25,6 +26,8 @@ public class UpsertUserHandler(ILogger logger, IdentityDbContext dbContext, IIdG
             throw new BusinessRuleValidationException("Telegram user id is required");
         }
 
+        var languageCode = LanguageCode.Of(request.LanguageCode);
+
         var existingUser = await dbContext.Users
             .SingleOrDefaultAsync(u => u.TelegramUserId.Value == telegramId, cancellationToken);
 
@@ -33,17 +36,17 @@ public class UpsertUserHandler(ILogger logger, IdentityDbContext dbContext, IIdG
         User user;
         if (existingUser is null)
         {
-            user = User.Create(UserId.Of(idGenerator.CreateId()), TelegramUserId.Of(telegramId), request.FirstName, request.LastName, request.Username, request.LanguageCode);
+            user = User.Create(UserId.Of(idGenerator.CreateId()), TelegramUserId.Of(telegramId), request.FirstName, request.LastName, request.Username, languageCode);
             await dbContext.AddAsync(user, cancellationToken);
         }
         else
         {
-            existingUser.UpdateProfile(request.FirstName, request.LastName, request.Username, request.LanguageCode);
+            existingUser.UpdateProfile(request.FirstName, request.LastName, request.Username, languageCode);
             user = existingUser;
         }
 
-        user.AddDomainEvent(new UserUpsertedEvent(user.Id, isNewUser));
-
+        // User.Create/UpdateProfile already raise UserUpsertedEvent themselves — this is a rich
+        // domain model, so the event belongs with the behavior that causes it, not here.
         return new UpsertUserResult(user.Id, isNewUser);
     }
 }
