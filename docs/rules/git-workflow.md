@@ -53,3 +53,25 @@ Format: `<type>/<short-description>` or `<type>/<issue-number>-<description>` (*
 - **PR Naming:** Use conventional commit style (e.g., `feat: add flashcard pagination`, `fix: correct SM-2 interval calculation`).
 
 ---
+
+Commit Types
+feat: A new feature
+
+fix: A bug fix
+
+refactor: Code restructuring without changing functionality
+
+test: Adding or updating tests
+
+docs: Documentation updates only
+
+chore: Build tools, dependencies, or workflow changes
+
+ci: CI/CD pipeline configuration changes
+
+Quick Rules
+Use imperative mood ("add" not "added").
+
+Keep header line under 70 characters.
+
+Keep commits atomic (one logical change per commit).

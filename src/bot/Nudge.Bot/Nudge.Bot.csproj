@@ -13,4 +13,10 @@
     <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="10.0.12" />
     <PackageReference Include="Telegram.Bot" Version="22.10.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <!-- For the shared Language contract (Nudge.Shared.Core.Localization) used by both the bot
+         and the domain. -->
+    <ProjectReference Include="..\..\shared\Nudge.Shared\Nudge.Shared.csproj" />
+  </ItemGroup>
 </Project>
