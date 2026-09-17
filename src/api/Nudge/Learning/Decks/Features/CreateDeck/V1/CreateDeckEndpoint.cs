@@ -13,6 +13,10 @@ namespace Nudge.Learning.Decks.Features.CreateDeck.V1;
 
 public class CreateDeckRequestDto
 {
+    // Client-supplied for now — there's no authenticated-user context yet (see the todo below).
+    [JsonProperty("userId")]
+    public long UserId { get; set; }
+
     [JsonProperty("title")]
     public string Title { get; set; }
 
@@ -30,6 +34,7 @@ public class CreateDeckRequestDtoValidator : AbstractValidator<CreateDeckRequest
 {
     public CreateDeckRequestDtoValidator()
     {
+        RuleFor(x => x.UserId).GreaterThan(0);
         RuleFor(x => x.Title).NotNull().NotEmpty().MaximumLength(DeckTitleShouldBeLessThanNCharacters.Length);
         RuleFor(x => x.Description).MaximumLength(DeckDescriptionShouldBeLessThanNCharacters.Length);
     }
@@ -46,7 +51,7 @@ public class CreateDeckEndpoint : IMinimalEndpoint
             var response = result.Adapt<CreateDeckResponseDto>();
             return Results.CreatedAtRoute("GetDeckById", new { id = result.Id }, response); // not sure about magic string
         })
-            // todo: add authorization
+            // todo: add authorization — once wired up, resolve UserId from the principal instead of the request body
             .WithValidation<CreateDeckRequestDto>()
             .HasApiVersion(1.0);
 

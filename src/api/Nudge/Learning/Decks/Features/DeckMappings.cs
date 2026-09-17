@@ -8,7 +8,7 @@ public class DeckMappings : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<CreateDeckRequestDto, CreateDeckCommand>()
-            .ConstructUsing(d => new CreateDeckCommand(d.Title, d.Description));
+            .ConstructUsing(d => new CreateDeckCommand(d.UserId, d.Title, d.Description));
 
         config.NewConfig<CreateDeckResult, CreateDeckResponseDto>()
             .Map(r => r.Id, r => r.Id);

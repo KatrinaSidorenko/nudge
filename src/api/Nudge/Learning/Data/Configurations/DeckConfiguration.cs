@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nudge.Identity.Users.ValueObjects;
 using Nudge.Learning.Decks.BussinessRules;
 using Nudge.Learning.Decks.Models;
 using Nudge.Learning.Decks.ValueObjects;
@@ -18,6 +19,11 @@ public class DeckConfiguration : IEntityTypeConfiguration<Deck>
         // Id is generated on client-side
         builder.Property(d => d.Id).ValueGeneratedNever()
             .HasConversion<long>(dId => dId.Value, dbId => DeckId.Of(dbId));
+
+        builder.Property(d => d.UserId).IsRequired()
+            .HasConversion<long>(uId => uId.Value, dbId => UserId.Of(dbId));
+
+        builder.HasIndex(d => d.UserId);
 
         builder.Property(r => r.Version).IsConcurrencyToken();
 
