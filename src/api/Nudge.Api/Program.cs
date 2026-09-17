@@ -1,4 +1,4 @@
-using Nudge.Learning.Extensions;
+using Nudge.Api.Extensions;
 using Nudge.Shared.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);

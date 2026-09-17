@@ -1,4 +1,6 @@
 using System.Reflection;
+using Asp.Versioning;
+using Asp.Versioning.Builder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,9 +46,19 @@ public static class MinimalApiExtensions
 
         var endpoints = scope.ServiceProvider.GetServices<IMinimalEndpoint>();
 
+        // Every IMinimalEndpoint calls .HasApiVersion(...) on the builder it's given, which
+        // requires the endpoint to belong to an ApiVersionSet — build one shared set here so
+        // individual endpoint classes don't each need to wire their own.
+        var versionSet = builder.NewApiVersionSet()
+            .HasApiVersion(new ApiVersion(1.0))
+            .ReportApiVersions()
+            .Build();
+
+        var versionedBuilder = builder.MapGroup(string.Empty).WithApiVersionSet(versionSet);
+
         foreach (var endpoint in endpoints)
         {
-            endpoint.MapEndpoint(builder);
+            endpoint.MapEndpoint(versionedBuilder);
         }
 
         return builder;

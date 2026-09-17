@@ -10,7 +10,7 @@ public class IdentityDbContext : AppDbContextBase
 {
     private const string _schema = "identity";
 
-    public IdentityDbContext(DbContextOptions options, ILogger<IdentityDbContext>? logger = null)
+    public IdentityDbContext(DbContextOptions<IdentityDbContext> options, ILogger<IdentityDbContext>? logger = null)
         : base(options, logger)
     {
     }

@@ -64,19 +64,19 @@ public abstract class AppDbContextBase : DbContext, IDbContext
                     {
                         case EntityState.Added:
                             entry.Entity.CreatedBy = userId;
-                            entry.Entity.CreatedAt = DateTime.Now;
+                            entry.Entity.CreatedAt = DateTime.UtcNow;
                             break;
 
                         case EntityState.Modified:
                             entry.Entity.LastModifiedBy = userId;
-                            entry.Entity.LastModified = DateTime.Now;
+                            entry.Entity.LastModified = DateTime.UtcNow;
                             entry.Entity.Version++;
                             break;
 
                         case EntityState.Deleted:
                             entry.State = EntityState.Modified;
                             entry.Entity.LastModifiedBy = userId;
-                            entry.Entity.LastModified = DateTime.Now;
+                            entry.Entity.LastModified = DateTime.UtcNow;
                             entry.Entity.IsDeleted = true;
                             entry.Entity.Version++;
                             break;
@@ -116,11 +116,17 @@ public abstract class AppDbContextBase : DbContext, IDbContext
         }
     }
 
-    // assume that all dates in db will be in the UTC format
+    // Assume that all dates in the db are UTC — Npgsql requires Kind=Utc for `timestamp with
+    // time zone` columns (Kind=Unspecified is rejected outright, and mixing Kinds within a
+    // single insert throws too). Local values are actually converted; Unspecified is assumed to
+    // already be UTC rather than guessed at.
     private static DateTime NormalizeDateTime(DateTime value)
     {
-        return value.Kind == DateTimeKind.Unspecified
-            ? value
-            : DateTime.SpecifyKind(value, DateTimeKind.Unspecified);
+        return value.Kind switch
+        {
+            DateTimeKind.Utc => value,
+            DateTimeKind.Local => value.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(value, DateTimeKind.Utc),
+        };
     }
 }
