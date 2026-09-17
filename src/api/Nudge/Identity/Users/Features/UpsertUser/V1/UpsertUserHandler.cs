@@ -13,7 +13,7 @@ namespace Nudge.Identity.Users.Features.UpsertUser.V1;
 public record UpsertUserCommand(long? TelegramId, string FirstName, string? LastName, string? Username, Language LanguageCode) : ICommand<UpsertUserResult>;
 public record UpsertUserResult(long Id, bool IsNewUser);
 
-public class UpsertUserHandler(ILogger logger, IdentityDbContext dbContext, IIdGenerator<long> idGenerator) : ICommandHandler<UpsertUserCommand, UpsertUserResult>
+public class UpsertUserHandler(ILogger<UpsertUserHandler> logger, IdentityDbContext dbContext, IIdGenerator<long> idGenerator) : ICommandHandler<UpsertUserCommand, UpsertUserResult>
 {
     public async Task<UpsertUserResult> Handle(UpsertUserCommand request, CancellationToken cancellationToken)
     {

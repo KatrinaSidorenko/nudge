@@ -10,7 +10,7 @@ namespace Nudge.Learning.Decks.Features.CreateDeck.V1;
 public record CreateDeckCommand(string Title, string? Description) : ICommand<CreateDeckResult>;
 public record CreateDeckResult(long Id);
 
-public class CreateDeckHandler(ILogger logger, LearningDbContext dbContext, IIdGenerator<long> idGenerator) : ICommandHandler<CreateDeckCommand, CreateDeckResult>
+public class CreateDeckHandler(ILogger<CreateDeckHandler> logger, LearningDbContext dbContext, IIdGenerator<long> idGenerator) : ICommandHandler<CreateDeckCommand, CreateDeckResult>
 {
     public async Task<CreateDeckResult> Handle(CreateDeckCommand request, CancellationToken cancellationToken)
     {
