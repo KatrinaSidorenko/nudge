@@ -15,7 +15,7 @@ public static class IdentityModuleExtensions
         builder.Services.AddDbContext<IdentityDbContext>((sp, options) =>
             options.UseNpgsql(sp.GetRequiredService<IOptions<IdentityDbOptions>>().Value.ConnectionString));
 
-        // EfTxBehavior resolves IEnumerable<DbContext> to save/log every module's changes;
+        // EfUnitOfWork resolves IEnumerable<DbContext> to save/publish every module's changes;
         // AddDbContext<T> only registers T itself, so it's also exposed as the base type here.
         builder.Services.AddScoped<DbContext>(sp => sp.GetRequiredService<IdentityDbContext>());
 

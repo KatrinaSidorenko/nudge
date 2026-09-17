@@ -1,6 +1,6 @@
 using MediatR;
 using Nudge.Identity.Users.Models;
-using Nudge.Learning.Users.Features.CreateOrActivateDefaultDeck.V1;
+using Nudge.Learning.Decks.Features.CreateOrActivateDefaultDeck.V1;
 
 namespace Nudge.Learning.Users.EventHandlers;
 

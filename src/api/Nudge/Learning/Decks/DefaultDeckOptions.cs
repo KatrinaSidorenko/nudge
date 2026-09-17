@@ -1,4 +1,4 @@
-namespace Nudge.Learning.Users;
+namespace Nudge.Learning.Decks;
 
 public class DefaultDeckOptions
 {

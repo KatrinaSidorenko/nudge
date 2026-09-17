@@ -19,6 +19,10 @@ public static class MediatRExtensions
         // In-memory today; swap for a RabbitMqEventBus later without touching callers.
         services.AddScoped<IEventBus, MediatrEventBus>();
 
+        // EfTxBehavior depends on this, not on the DbContexts directly — it resolves
+        // IEnumerable<DbContext> to save/publish events for every module touched by a request.
+        services.AddScoped<IUnitOfWork, EfUnitOfWork>();
+
         // Registration order = outer-to-inner pipeline: every request is logged, then validated,
         // then handled and its changes/domain events are saved/logged by EfTxBehavior.
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

@@ -3,14 +3,14 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Nudge.Identity.Users.ValueObjects;
 using Nudge.Learning.Data;
+using Nudge.Learning.Decks;
+using Nudge.Learning.Decks.Features.CreateOrActivateDefaultDeck.V1;
 using Nudge.Learning.Decks.Models;
 using Nudge.Learning.Decks.ValueObjects;
-using Nudge.Learning.Users;
-using Nudge.Learning.Users.Features.CreateOrActivateDefaultDeck.V1;
 using Nudge.Shared.Core.Utils;
 using Xunit;
 
-namespace Nudge.UnitTests.Learning.Users.Features.CreateOrActivateDefaultDeck.V1;
+namespace Nudge.UnitTests.Learning.Decks.Features.CreateOrActivateDefaultDeck.V1;
 
 public class CreateOrActivateDefaultDeckHandlerTests
 {

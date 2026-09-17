@@ -9,7 +9,7 @@ using Nudge.Learning.Decks.ValueObjects;
 using Nudge.Shared.Core.CQRS;
 using Nudge.Shared.Core.Utils;
 
-namespace Nudge.Learning.Users.Features.CreateOrActivateDefaultDeck.V1;
+namespace Nudge.Learning.Decks.Features.CreateOrActivateDefaultDeck.V1;
 
 public record CreateOrActivateDefaultDeckCommand(long UserId) : ICommand;
 
